@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Gerenciar Usuários</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Usuários Cadastrados</h1>
+  <table id="tabelaUsuarios">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Idade</th>
+        <th>Profissão</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    let usuarios = [];
+  
+    async function carregarUsuarios() {
+      try {
+        const res = await fetch('http://localhost:5000/usuarios');
+        usuarios = await res.json();
+        console.log("Usuários recebidos:", usuarios);
+        renderizarTabela();
+      } catch (err) {
+        console.error("Erro ao buscar usuários:", err);
+      }
+    }
+  
+    function renderizarTabela() {
+      const tbody = document.querySelector("#tabelaUsuarios tbody");
+      tbody.innerHTML = "";
+  
+      usuarios.forEach((u, i) => {
+        const linha = document.createElement("tr");
+  
+        linha.innerHTML = `
+          <td contenteditable="true" oninput="usuarios[${i}].nome = this.innerText">${u.nome}</td>
+          <td contenteditable="true" oninput="usuarios[${i}].idade = this.innerText">${u.idade}</td>
+          <td contenteditable="true" oninput="usuarios[${i}].profissao = this.innerText">${u.profissao}</td>
+          <td><button onclick="removerUsuario(${i})">Excluir</button></td>
+        `;
+  
+        tbody.appendChild(linha);
+      });
+    }
+  
+    function removerUsuario(index) {
+      if (confirm("Deseja realmente excluir este usuário?")) {
+        usuarios.splice(index, 1);
+        salvarUsuarios();
+        renderizarTabela();
+      }
+    }
+  
+    function salvarUsuarios() {
+      fetch("http://localhost:5000/usuarios", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(usuarios)
+      })
+        .then(() => alert("Alterações salvas com sucesso!"))
+        .catch(err => alert("Erro ao salvar: " + err));
+    }
+  
+    window.onload = carregarUsuarios;
+  </script>
+  
+  
+</body>
+</html>

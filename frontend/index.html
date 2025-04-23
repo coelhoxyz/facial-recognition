@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Reconhecimento Facial</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+  
+    video, canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+    }
+  
+    video {
+      z-index: 1;
+    }
+  
+    canvas {
+      z-index: 2;
+      pointer-events: none;
+    }
+  </style>
+  
+  
+</head>
+<body>
+  <video id="webcam" autoplay playsinline></video>
+  <canvas id="overlay"></canvas>
+  <script src="renderer.js"></script>
+</body>
+</html>
