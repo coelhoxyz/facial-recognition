@@ -5,7 +5,7 @@ import os
 import logging
 from utils.logger import setup_logging
 
-JSON_FILE = "data/face_data.json"
+JSON_FILE = "src/data/face_data.json"
 
 # Configure logging
 setup_logging()
@@ -77,9 +77,9 @@ def main():
         return
 
     new_person = {
-        "nome": name,  # Keeping field names consistent with existing code
-        "idade": age,
-        "profissao": occupation,
+        "name": name,  # Keeping field names consistent with existing code
+        "age": age,
+        "profession": occupation,
         "encoding": encoding
     }
 
