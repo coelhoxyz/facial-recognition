@@ -9,36 +9,36 @@ navigator.mediaDevices.getUserMedia({ video: true })
     video.srcObject = stream;
   })
   .catch(err => {
-    console.error("Erro ao acessar webcam:", err);
+    console.error("Error accessing webcam:", err);
   });
 
 socket.onmessage = event => {
   const data = JSON.parse(event.data);
 
-  // Ajusta o canvas ao tamanho do vídeo
+  // Adjust canvas to video size
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
 
-  // Limpa o canvas
+  // Clear the canvas
   context.clearRect(0, 0, canvas.width, canvas.height);
 
-  if (data.rostos && data.rostos.length > 0) {
-    for (const rosto of data.rostos) {
+  if (data.faces && data.faces.length > 0) {
+    for (const face of data.faces) {
       context.strokeStyle = "#00FF00";
       context.lineWidth = 3;
-      context.strokeRect(rosto.left, rosto.top, rosto.right - rosto.left, rosto.bottom - rosto.top);
+      context.strokeRect(face.left, face.top, face.right - face.left, face.bottom - face.top);
 
       context.font = "16px Arial";
       context.fillStyle = "lime";
-      context.fillText(rosto.nome, rosto.left, rosto.top - 10);
+      context.fillText(face.name, face.left, face.top - 10);
     }
   }
 };
 
 socket.onerror = (err) => {
-  console.error("Erro no WebSocket:", err);
+  console.error("WebSocket error:", err);
 };
 
 socket.onclose = () => {
-  console.warn("Conexão WebSocket encerrada.");
+  console.warn("WebSocket connection closed.");
 };
