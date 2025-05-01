@@ -1,8 +1,8 @@
 [
   {
-    "nome": "Allison Joanine",
-    "idade": "20",
-    "profissao": "Developer",
+    "name": "Allison Joanine",
+    "age": "20",
+    "occupation": "Developer",
     "encoding": [
       -0.13572579622268677,
       0.04524369537830353,
@@ -135,9 +135,9 @@
     ]
   },
   {
-    "nome": "Isaque Coelho",
-    "idade": "23",
-    "profissao": "AI Engineer",
+    "name": "Isaque Coelho",
+    "age": "23",
+    "occupation": "AI Engineer",
     "encoding": [
       -0.12296682596206665,
       0.04416973516345024,
