@@ -24,12 +24,17 @@
   
     async function loadUsers() {
       try {
-        const res = await fetch('http://localhost:5000/users');
+        // Use the same origin as the browser address bar (127.0.0.1)
+        const res = await fetch('http://127.0.0.1:5000/users'); 
+        if (!res.ok) { // Check if fetch was successful
+             throw new Error(`HTTP error! status: ${res.status}`);
+        }
         users = await res.json();
         console.log("Users received:", users);
         renderTable();
       } catch (err) {
         console.error("Error fetching users:", err);
+        alert("Failed to load user data. Check console for details."); // User feedback
       }
     }
   
@@ -60,13 +65,27 @@
     }
   
     function saveUsers() {
-      fetch("http://localhost:5000/users", {
+      // Also update this fetch URL if needed, though often POST is less strict
+      // For consistency, let's change it too.
+      fetch("http://127.0.0.1:5000/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(users)
       })
-        .then(() => alert("Changes saved successfully!"))
-        .catch(err => alert("Error saving: " + err));
+        .then(res => {
+             if (!res.ok) {
+                 throw new Error(`HTTP error! status: ${res.status}`);
+             }
+             return res.json(); // Assuming server sends back a JSON response on success
+        })
+        .then(data => {
+            console.log("Save response:", data); // Log success response
+            alert("Changes saved successfully!");
+         })
+        .catch(err => {
+             console.error("Error saving users:", err);
+             alert("Error saving changes: " + err);
+         });
     }
   
     window.onload = loadUsers;

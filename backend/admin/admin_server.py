@@ -13,8 +13,7 @@ CORS(app)
 setup_logging()
 logger = logging.getLogger(__name__)
 
-# Caminho para o arquivo JSON (agora relativo à raiz do backend)
-JSON_FILE = os.path.join(os.path.dirname(__file__), '..', 'face_data.json')
+JSON_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'src', 'data', 'face_data.json')
 
 @app.route('/')
 def index():
