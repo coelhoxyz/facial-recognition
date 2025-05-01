@@ -1,75 +1,75 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Gerenciar Usuários</title>
+  <title>Manage Users</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Usuários Cadastrados</h1>
-  <table id="tabelaUsuarios">
+  <h1>Registered Users</h1>
+  <table id="usersTable">
     <thead>
       <tr>
-        <th>Nome</th>
-        <th>Idade</th>
-        <th>Profissão</th>
-        <th>Ações</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Profession</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody></tbody>
   </table>
 
   <script>
-    let usuarios = [];
+    let users = [];
   
-    async function carregarUsuarios() {
+    async function loadUsers() {
       try {
-        const res = await fetch('http://localhost:5000/usuarios');
-        usuarios = await res.json();
-        console.log("Usuários recebidos:", usuarios);
-        renderizarTabela();
+        const res = await fetch('http://localhost:5000/users');
+        users = await res.json();
+        console.log("Users received:", users);
+        renderTable();
       } catch (err) {
-        console.error("Erro ao buscar usuários:", err);
+        console.error("Error fetching users:", err);
       }
     }
   
-    function renderizarTabela() {
-      const tbody = document.querySelector("#tabelaUsuarios tbody");
+    function renderTable() {
+      const tbody = document.querySelector("#usersTable tbody");
       tbody.innerHTML = "";
   
-      usuarios.forEach((u, i) => {
-        const linha = document.createElement("tr");
+      users.forEach((u, i) => {
+        const row = document.createElement("tr");
   
-        linha.innerHTML = `
-          <td contenteditable="true" oninput="usuarios[${i}].nome = this.innerText">${u.nome}</td>
-          <td contenteditable="true" oninput="usuarios[${i}].idade = this.innerText">${u.idade}</td>
-          <td contenteditable="true" oninput="usuarios[${i}].profissao = this.innerText">${u.profissao}</td>
-          <td><button onclick="removerUsuario(${i})">Excluir</button></td>
+        row.innerHTML = `
+          <td contenteditable="true" oninput="users[${i}].name = this.innerText">${u.name}</td>
+          <td contenteditable="true" oninput="users[${i}].age = this.innerText">${u.age}</td>
+          <td contenteditable="true" oninput="users[${i}].profession = this.innerText">${u.profession}</td>
+          <td><button onclick="removeUser(${i})">Delete</button></td>
         `;
   
-        tbody.appendChild(linha);
+        tbody.appendChild(row);
       });
     }
   
-    function removerUsuario(index) {
-      if (confirm("Deseja realmente excluir este usuário?")) {
-        usuarios.splice(index, 1);
-        salvarUsuarios();
-        renderizarTabela();
+    function removeUser(index) {
+      if (confirm("Do you really want to delete this user?")) {
+        users.splice(index, 1);
+        saveUsers();
+        renderTable();
       }
     }
   
-    function salvarUsuarios() {
-      fetch("http://localhost:5000/usuarios", {
+    function saveUsers() {
+      fetch("http://localhost:5000/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(usuarios)
+        body: JSON.stringify(users)
       })
-        .then(() => alert("Alterações salvas com sucesso!"))
-        .catch(err => alert("Erro ao salvar: " + err));
+        .then(() => alert("Changes saved successfully!"))
+        .catch(err => alert("Error saving: " + err));
     }
   
-    window.onload = carregarUsuarios;
+    window.onload = loadUsers;
   </script>
   
   
