@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  recognition-server:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile.recognition
+    container_name: recognition_server
+    ports:
+      - "8765:8765" # WebSocket port
+      - "5001:5001" # Flask stream port
+    volumes:
+      # Mount models from host into the container's /app/backend directory
+      - ./backend/shape_predictor_68_face_landmarks.dat:/app/backend/shape_predictor_68_face_landmarks.dat:ro
+      - ./backend/dlib_face_recognition_resnet_model_v1.dat:/app/backend/dlib_face_recognition_resnet_model_v1.dat:ro
+      # Mount the specific face data file into the container's /app/backend/src/data/ directory
+      - ./backend/src/data/face_data.json:/app/backend/src/data/face_data.json # Now needs RW for registration
+    # Add the devices section back
+    devices:
+      # Map the camera device (Common on Linux, may need adjustment/removal on other OS)
+      - "/dev/video0:/dev/video0"
+    environment:
+      - PYTHONUNBUFFERED=1
+    # Add privileged flag if needed for device access on some systems
+    # privileged: true
+    # Add group_add if needed for video group permissions on Linux
+    # group_add:
+    #   - video

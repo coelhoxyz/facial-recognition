@@ -1,6 +1,0 @@
-opencv-python
-face-recognition
-numpy
-websockets
-flask
-flask_cors

@@ -1,0 +1,28 @@
+# Ignore virtual environment
+venv/
+**/venv/
+
+# Ignore Python cache and compiled files
+__pycache__/
+**/.pytest_cache/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore Git files
+.git/
+.gitignore
+
+# Ignore IDE/Editor files
+.vscode/
+.idea/
+*.sublime-*
+
+# Ignore build artifacts (if any)
+build/
+dist/
+*.egg-info/ 
